@@ -19,31 +19,62 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(textoRecebido.text),
-              TextField(
-                controller: textoRecebido,
-                decoration: const InputDecoration(
-                  labelText: "+ Item",
-                  hintText: "Digite um item",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+        body: Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                const Expanded(
+                  flex: 4,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: "Adicione uma tarefa",
+                      border: OutlineInputBorder(),
                     ),
+                    keyboardType: TextInputType.name,
                   ),
                 ),
-                keyboardType: TextInputType.emailAddress,
-              ),
-              ElevatedButton(onPressed: observar, child: const Text("Salvar"))
-            ],
-          ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Icon(Icons.add),
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFF00D7F3),
+                      fixedSize: const Size(60, 60),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                const Expanded(
+                  flex: 3,
+                  child: Text("Você possui 0 tarefas pendentes"),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Limpar tarefas"),
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFF00D7F3),
+                      fixedSize: const Size(60, 60),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 }
