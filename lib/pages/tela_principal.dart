@@ -8,13 +8,9 @@ class TelaPrincipal extends StatefulWidget {
 }
 
 class _TelaPrincipalState extends State<TelaPrincipal> {
-  final TextEditingController textoRecebido = TextEditingController();
+  TextEditingController textoRecebido = TextEditingController();
 
-  void observar() {
-    setState(() {
-      textoRecebido;
-    });
-  }
+  List<String> lista = [];
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +23,25 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
           children: [
             Row(
               children: [
-                const Expanded(
+                Expanded(
                   flex: 4,
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Adicione uma tarefa",
                       border: OutlineInputBorder(),
                     ),
                     keyboardType: TextInputType.name,
+                    controller: textoRecebido,
                   ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        lista.add(textoRecebido.text);
+                      });
+                    },
                     child: const Icon(Icons.add),
                     style: ElevatedButton.styleFrom(
                       primary: const Color(0xFF00D7F3),
@@ -50,8 +51,21 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                 )
               ],
             ),
-            const SizedBox(
-              height: 10,
+            Flexible(
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  for (String nomesListas in lista)
+                    ListTile(
+                      title: Text(
+                        nomesListas,
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
             Row(
               children: [
