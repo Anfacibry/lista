@@ -15,6 +15,12 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
 
   List<ItenAdd> lista = [];
 
+  void removendoItem(ItenAdd item) {
+    setState(() {
+      lista.remove(item);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -66,6 +72,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                     for (ItenAdd nomesListas in lista)
                       ListaDeItens(
                         item: nomesListas,
+                        remover: removendoItem,
                       ),
                   ],
                 ),
