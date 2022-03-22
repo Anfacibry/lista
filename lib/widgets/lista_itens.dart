@@ -5,27 +5,28 @@ import 'package:lista/models/conteudo.dart';
 
 class ListaDeItens extends StatelessWidget {
   final ItenAdd item;
+  final Function(ItenAdd) remover;
 
   const ListaDeItens({
     Key? key,
     required this.item,
+    required this.remover,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
       actionPane: const SlidableStrechActionPane(),
-      secondaryActions: const [
+      secondaryActions: [
         IconSlideAction(
-          color: Color.fromARGB(255, 235, 104, 95),
+          color: const Color.fromARGB(255, 235, 104, 95),
           icon: Icons.delete,
-          onTap: null,
+          onTap: () => remover(item),
         )
       ],
       child: Container(
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 19, 79, 87),
-          borderRadius: BorderRadius.circular(10),
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 19, 79, 87),
         ),
         padding: const EdgeInsets.all(10),
         child: Column(
