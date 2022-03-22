@@ -47,6 +47,44 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
     );
   }
 
+  void limpandoListaTarefas() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Ação de limpar tudo!"),
+        content: const Text(
+            "Você tem certeza que deseja continuar com esta ação e limpar todas as listas de tarefas?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text(
+              "Cancelar",
+              style: TextStyle(
+                color: Color.fromARGB(255, 25, 118, 131),
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                Navigator.of(context).pop();
+                lista.clear();
+              });
+            },
+            child: const Text(
+              "Conformar",
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -113,7 +151,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: limpandoListaTarefas,
                       child: const Text("Limpar tarefas"),
                       style: ElevatedButton.styleFrom(
                         primary: const Color(0xFF00D7F3),
