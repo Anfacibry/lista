@@ -14,11 +14,37 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
   TextEditingController textoRecebido = TextEditingController();
 
   List<ItenAdd> lista = [];
+  ItenAdd? itemPego;
+  int? posicaoPega;
 
   void removendoItem(ItenAdd item) {
+    itemPego = item;
+    posicaoPega = lista.indexOf(item);
     setState(() {
       lista.remove(item);
     });
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    //ScaffoldMesseger serve para apresentar uma mensagem de aviso
+    //podendo ser colocando um desfazer ou outras informações importantes
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Desfazer tarefa ${item.titulo}",
+          style: const TextStyle(color: Color.fromARGB(255, 25, 118, 131)),
+        ),
+        backgroundColor: Colors.white,
+        duration: const Duration(seconds: 5),
+        action: SnackBarAction(
+          label: "Desfazer",
+          onPressed: () {
+            setState(() {
+              lista.insert(posicaoPega!, itemPego!);
+            });
+          },
+        ),
+      ),
+    );
   }
 
   @override
