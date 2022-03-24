@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista/models/conteudo.dart';
+import 'package:lista/repositore/repositorio.dart';
 
 import '../widgets/lista_itens.dart';
 
@@ -12,6 +13,7 @@ class TelaPrincipal extends StatefulWidget {
 
 class _TelaPrincipalState extends State<TelaPrincipal> {
   TextEditingController textoRecebido = TextEditingController();
+  final TodoRepositorio todoRepositorio = TodoRepositorio();
 
   List<ItenAdd> lista = [];
   ItenAdd? itemPego;
@@ -119,6 +121,8 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                               dataHora: DateTime.now());
                           lista.add(item);
                         });
+                        textoRecebido.clear();
+                        todoRepositorio.salveTodaLista(lista);
                       },
                       child: const Icon(Icons.add),
                       style: ElevatedButton.styleFrom(
