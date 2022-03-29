@@ -18,12 +18,25 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
   List<ItenAdd> lista = [];
   ItenAdd? itemPego;
   int? posicaoPega;
+  String? erro;
+
+  @override
+  void initState() {
+    super.initState();
+
+    todoRepositorio.pegandoLista().then((value) {
+      setState(() {
+        lista = value;
+      });
+    });
+  }
 
   void removendoItem(ItenAdd item) {
     itemPego = item;
     posicaoPega = lista.indexOf(item);
     setState(() {
       lista.remove(item);
+      todoRepositorio.salveTodaLista(lista);
     });
 
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -42,6 +55,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
           onPressed: () {
             setState(() {
               lista.insert(posicaoPega!, itemPego!);
+              todoRepositorio.salveTodaLista(lista);
             });
           },
         ),
@@ -103,9 +117,10 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                   Expanded(
                     flex: 4,
                     child: TextField(
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: "Adicione uma tarefa",
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
+                        errorText: erro,
                       ),
                       keyboardType: TextInputType.name,
                       controller: textoRecebido,
@@ -115,11 +130,19 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
+                        String texto = textoRecebido.text;
+                        if (texto.isEmpty) {
+                          setState(() {
+                            erro = "Por favor digite um item";
+                          });
+                          return;
+                        }
                         setState(() {
                           ItenAdd item = ItenAdd(
                               titulo: textoRecebido.text,
                               dataHora: DateTime.now());
                           lista.add(item);
+                          erro = null;
                         });
                         textoRecebido.clear();
                         todoRepositorio.salveTodaLista(lista);
