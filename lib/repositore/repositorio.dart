@@ -5,14 +5,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/conteudo.dart';
 
 class TodoRepositorio {
-  TodoRepositorio() {
-    SharedPreferences.getInstance().then((valor) => sharedPreferences = valor);
-  }
-
   late SharedPreferences sharedPreferences;
+  static const String key = "lista";
+
+  Future<List<ItenAdd>> pegandoLista() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    final String jsonString = sharedPreferences.getString(key) ?? "[]";
+    final List jsonDecod = json.decode(jsonString) as List;
+    return jsonDecod.map((e) => ItenAdd.fronJson(e)).toList();
+  }
 
   void salveTodaLista(List<ItenAdd> itens) {
     final String jsonString = json.encode(itens);
-    sharedPreferences.setString("lista", jsonString);
+    sharedPreferences.setString(key, jsonString);
   }
 }
